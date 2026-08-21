@@ -1,0 +1,5 @@
+# Giu nguyen tung byte. KHONG doi ky tu xuong dong.
+# Ly do: PUBLICATION_MANIFEST.sha256 ghi hash cua tung file.
+# Neu Git doi LF thanh CRLF thi nguoi clone ve se tinh ra hash khac,
+# va manifest mat tac dung kiem chung.
+* -text

@@ -1,0 +1,27 @@
+# Repo nay chi chua noi dung cong khai.
+# Danh sach day du cac thu muc noi bo duoc giu RIENG, ngoai repo nay.
+
+# Rac ky thuat
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+*.log
+
+# Bi mat — chan phong ho, khong duoc co file nao loai nay o day
+.env
+.env.*
+*.key
+*.pem
+*.pfx
+credentials*
+.netrc
+
+# Goi va ban dung
+*.zip
+dist/
+build/

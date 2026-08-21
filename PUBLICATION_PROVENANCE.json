@@ -1,0 +1,65 @@
+{
+  "schema": "PUBLICATION_PROVENANCE/1.3",
+  "release_id": "tro-ly-trai-nghiem-3.0.1-pilot-rc.4",
+  "lifecycle_state": "CANDIDATE",
+  "created_at": "2026-08-21T12:00:00+07:00",
+  "source_release_id": "tro-ly-trai-nghiem-3.0.1-pilot-rc.3",
+  "source_release_zip_sha256": "f7d90d3d560b816aef8b57ccfe2ccb692641fda17cab471442057c9adc1a3b45",
+  "delta_from_rc3": {
+    "scope": "FEEDBACK_RECOVERY_AND_VOLUNTARY_ENVIRONMENT_CONSENT_ONLY",
+    "clinical_content_changed": false,
+    "sales_content_changed": false,
+    "public_allowlist_changed": false
+  },
+  "change_summary": [
+    "always-visible session feedback ledger counter on both role pages",
+    "feedback export available before completion and after voluntary stop",
+    "default export excludes environment and does not block copy or download",
+    "optional voluntary environment inclusion with visible preview",
+    "receipt SLA wording begins only after actual receipt confirmation"
+  ],
+  "public_payload_file_count": 7,
+  "repository_owner_namespace_candidate": "tro-ly-ky-thuat",
+  "repository_owner_namespace_availability": "CURRENT_RUNTIME_UNVERIFIED",
+  "repository_owner_namespace_ownership": "CURRENT_RUNTIME_UNVERIFIED",
+  "repository_name_candidate": "tro-ly-trai-nghiem",
+  "pages_source_intended": {"branch": "main", "folder": "/docs"},
+  "github_actions_enabled": false,
+  "tests_in_public_payload": false,
+  "feedback": {
+    "format": "FEEDBACK_PACKET/1.0",
+    "ledger_scope": "IN_MEMORY_TAB_SESSION_ONLY",
+    "persistence": "NONE_UNLESS_USER_EXPLICITLY_DOWNLOADS_TXT",
+    "automatic_send": false,
+    "sent_default": false,
+    "received_default": false,
+    "recovery_path": "always_visible_ledger_then_clipboard_download_or_visible_manual_selection",
+    "available_before_completion": true,
+    "available_after_stop": true,
+    "voluntary_environment_consent": true,
+    "environment_default": {"environment_consent": false, "environment_raw": null},
+    "owner": "system_owner",
+    "sla_hours_after_actual_receipt_confirmation": 48
+  },
+  "authorization": {
+    "p0_exception": "AUTHORIZE_WITH_CONDITIONS",
+    "conditions": [
+      "EXACT_SEVEN_PUBLIC_FILES",
+      "KEEP_P1_CLOSED",
+      "NO_AIRLOCK",
+      "NO_ORGANIZATION_OR_REPOSITORY_CREATION",
+      "NO_PUSH",
+      "NO_PUBLISH"
+    ]
+  },
+  "version_streams": {
+    "model": "THREE_STREAM",
+    "runtime": "UNCHANGED_ACTIVE_VALUE",
+    "public": "3.0.1-pilot-rc.4",
+    "governance": "UNCHANGED_FROM_RC3_HUMAN_RATIFICATION"
+  },
+  "github_repo_layer_opened": false,
+  "p1_status": "CLOSED",
+  "local_runtime_version_changed": false,
+  "publication_status": "NOT_EXECUTED"
+}

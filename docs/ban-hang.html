@@ -1,0 +1,607 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trợ Lý Kỹ Thuật</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#15181c;--dim:#5b636e;--line:#e2e5ea;
+--ok:#17754a;--warn:#a8760a;--bad:#a91f18;--acc:#164a85;--accbg:#e9f0f9;--gold:#d4a53a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 "Segoe UI",system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:22px 18px 96px}
+h1{font-size:24px;font-weight:600;margin:0 0 6px}
+h2{font-size:19px;font-weight:600;margin:26px 0 12px}
+h3{font-size:16px;font-weight:600;margin:0 0 8px}
+.sub{color:var(--dim);font-size:15px;margin:0 0 22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 21px;margin-bottom:14px}
+.card.act{border:2px solid var(--acc)}
+.card.done{opacity:.55}
+.card.tap{border-left:5px solid var(--gold)}
+button{font:inherit;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:11px 18px;cursor:pointer}
+button:hover{background:#eef1f5}
+.big{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600;font-size:17px;padding:14px 26px}
+.big:hover{background:#113a69}
+.stop{background:#fff;color:var(--bad);border:2px solid var(--bad);font-weight:600;font-size:16px;padding:13px 22px}
+.stop:hover{background:#fbeceb}
+.ghost{background:transparent;color:var(--dim);border:none;padding:7px 9px;font-size:14px;text-decoration:underline}
+.row{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.tag{display:inline-block;font-size:12px;padding:3px 11px;border-radius:20px;font-weight:600}
+.t-ok{background:#e4f2ea;color:var(--ok)}.t-warn{background:#fbf2df;color:var(--warn)}
+.t-bad{background:#fae9e8;color:var(--bad)}.t-dim{background:#edeff2;color:var(--dim)}
+pre{background:#1c2026;color:#dde1e6;padding:13px 15px;border-radius:9px;overflow:auto;
+font:13.5px/1.55 Consolas,monospace;white-space:pre-wrap;word-break:break-word;margin:9px 0}
+.lbl{font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;font-weight:600}
+.kv{font-size:14.5px;color:var(--dim);margin:4px 0}
+input{font:inherit;width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px}
+textarea{font:13.5px/1.55 Consolas,monospace;width:100%;min-height:260px;padding:13px 15px;border:1px solid var(--line);border-radius:9px;resize:vertical;background:#fff;color:var(--ink)}
+.consent{display:flex;gap:9px;align-items:flex-start;margin:12px 0}.consent input{width:auto;margin-top:6px}
+.feedback-overlay{position:fixed;inset:0;background:#0008;z-index:20;display:flex;align-items:center;justify-content:center;padding:18px}
+.feedback-dialog{background:#fff;border-radius:13px;max-width:720px;width:100%;max-height:92vh;overflow:auto;padding:20px;box-shadow:0 18px 55px #0005}
+.feedback-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.feedback-choice{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff}
+.feedback-choice input{width:auto;margin-top:6px}
+.ledger-button{padding:5px 12px;border-color:var(--acc);color:var(--acc);font-weight:600;background:var(--accbg)}
+.feedback-note{position:fixed;right:18px;bottom:72px;z-index:30;max-width:520px;background:#e4f2ea;border:1px solid #b4dcc6;border-radius:10px;padding:13px 16px;box-shadow:0 8px 24px #0003}
+.hide{display:none}
+.okbox{background:#e4f2ea;border:1px solid #b4dcc6;border-radius:10px;padding:13px 16px;margin:11px 0}
+.warnbox{background:#fbf2df;border:1px solid #e6d29c;border-radius:10px;padding:13px 16px;margin:11px 0}
+.badbox{background:#fae9e8;border:1px solid #eec1bd;border-radius:10px;padding:13px 16px;margin:11px 0}
+.infobox{background:var(--accbg);border:1px solid #b9d0e8;border-radius:10px;padding:13px 16px;margin:11px 0}
+.tapbar{background:#fbf2df;border:2px solid var(--gold);border-radius:11px;padding:12px 17px;margin:0 0 18px;font-size:15px}
+.map{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 18px;margin-bottom:16px}
+.mrow{display:flex;gap:11px;align-items:flex-start;padding:7px 0;font-size:14.5px;border-bottom:1px solid #f1f3f5}
+.mrow:last-child{border:none}
+.mnum{flex:0 0 26px;height:26px;border-radius:50%;background:#eef1f5;color:var(--dim);
+display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.mnum.now{background:var(--acc);color:#fff}.mnum.ok{background:#d5ebe0;color:var(--ok)}
+.mnum.key{background:#fbf2df;color:var(--warn);border:2px solid var(--gold)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:12px 0}
+@media(max-width:620px){.two{grid-template-columns:1fr}}
+.foot{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);
+padding:9px 18px;font-size:13.5px;color:var(--dim);display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+details{margin:10px 0}summary{cursor:pointer;color:var(--dim);font-size:14.5px}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+#o-cau-hoi{scroll-margin-top:24px}#o-cau-hoi:focus{outline:3px solid #f0b429}
+</style></head><body><div style="background:#3a2d5c;color:#fff;padding:11px 18px;text-align:center;font-size:15px"><b>BẢN TRẢI NGHIỆM — BÁN HÀNG</b> — chỉ cần trình duyệt · không cần Python · không chạy lệnh thật</div>
+<div class="wrap">
+
+<!-- ================= TRANG CHỦ ================= -->
+<div id="v-home">
+  <h1>Trợ Lý Kỹ Thuật</h1>
+  <p class="sub">Máy làm phần kỹ thuật. <b>Bạn nắm thông tin và bạn quyết định.</b></p>
+
+  <div class="infobox">
+    <h3 style="margin:0 0 6px">Không cần tải file lên. Nội dung đã có sẵn.</h3>
+    <p style="margin:0 0 8px">Mỗi việc bên dưới đã được tích hợp sẵn trong trang. Máy người dùng chỉ cần Chrome, Edge, Firefox hoặc Safari; không cần cài Python.</p>
+    <p class="kv" style="margin:0">Chọn một việc, <b>đọc bản tóm tắt trước</b>, rồi mới quyết định có làm hay không.</p>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Tên hiển thị hoặc biệt danh — không bắt buộc</div>
+    <input id="nguoi" autocomplete="off" placeholder="Ví dụ: Bác sĩ A, Nhân viên 01">
+    <p class="kv" style="margin-top:8px">Tên chỉ tồn tại trong tab đang mở, không được gửi đi và không được lưu trên máy. Để trống thì hệ thống dùng “Người trải nghiệm”.</p>
+  </div>
+
+  <div id="cong-box"></div>
+  <h2>Chọn việc</h2>
+  <div id="ds"></div>
+</div>
+
+<!-- ================= BẢN TÓM TẮT TRƯỚC KHI LÀM ================= -->
+<div id="v-brief" class="hide">
+  <button class="ghost" onclick="ve()">← Quay lại danh sách</button>
+  <h1 id="b-ten"></h1>
+  <p class="sub" id="b-mota"></p>
+  <div id="b-tapbar"></div>
+
+  <div class="card" style="border:2px solid var(--acc)">
+    <h3>Đọc hết trang này trước khi bấm bắt đầu</h3>
+    <p class="kv" style="margin:0">Bạn cần nắm được toàn bộ việc <b>trước khi</b> chạm vào máy.
+    Nếu đọc xong mà vẫn thấy mơ hồ, đừng bắt đầu — hỏi trước đã.</p>
+  </div>
+
+  <div class="two">
+    <div class="card"><div class="lbl">Việc này để làm gì</div><div id="b-mucdich"></div></div>
+    <div class="card"><div class="lbl">Xong rồi thì cái gì thay đổi</div><div id="b-ketqua"></div></div>
+  </div>
+  <div class="two">
+    <div class="card"><div class="lbl">Cần chuẩn bị trước</div><div id="b-chuanbi"></div></div>
+    <div class="card"><div class="lbl">Nếu sai thì sao</div><div id="b-neusai"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Bạn sẽ phải tự quyết định những điều này</div>
+    <div id="b-quyetdinh"></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Toàn bộ các bước — xem trước hết, không giấu gì</div>
+    <div id="b-map"></div>
+  </div>
+
+  <div class="row">
+    <button class="big" id="b-start">Tôi đã hiểu — bắt đầu</button>
+    <button class="stop" onclick="ve()">Chưa hiểu — để sau</button>
+  </div>
+  <p class="kv" style="margin-top:12px">Bấm "để sau" không mất gì cả. Không ai giục.</p>
+</div>
+
+<!-- ================= ĐANG LÀM ================= -->
+<div id="v-run" class="hide">
+  <button class="ghost" onclick="veBrief()">← Xem lại bản tóm tắt</button>
+  <h1 id="r-ten"></h1>
+  <div id="r-tapbar"></div>
+  <div class="map" id="r-map"></div>
+  <div id="r-buoc"></div>
+</div>
+
+<div class="foot">
+  <span id="f-nguoi">Người trải nghiệm</span>
+  <button class="ledger-button" id="feedback-ledger-button" onclick="moSoTam()">Sổ tạm (0)</button>
+  <a href="#" onclick="hoiGopY('màn hình chung');return false">Góp ý / báo lỗi phần mềm</a>
+  <span id="f-ver"></span>
+</div>
+</div>
+<script>
+let RB=[],cur=null,idx=0,cham=0,nhatky=[],daTraLoi={},diemDung=0,diemSai=0,daXem={},phanHoi=[],feedbackId='',feedbackPacketText='',feedbackDownloadUrl='',stoppedStep='';
+const RELEASE_ID='3.0.1-pilot-rc.4',ROLE='BAN_HANG';
+const $=s=>document.querySelector(s),E=s=>document.createElement(s);
+const esc=s=>(s||"").replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const nguoi=()=>($('#nguoi').value||'Người trải nghiệm').trim();
+const _RB=[{"meta":{"id":"RB_S01","title":"[TẬP - BÁN HÀNG] Làm quen trong 5 phút","mo_ta":"Bài đầu tiên. Không cần biết máy tính. Toàn đồ giả.","thoi_gian":"khoảng 5 phút","la_tap":"co","muc_dich":"Để bạn thấy phần mềm này hoạt động ra sao, và hiểu rằng bạn là người quyết định, không phải máy.","sau_khi_xong":"Bạn biết cách đọc màn hình, biết hai cái đèn khác nhau chỗ nào, và biết mình được quyền nói không.","chuan_bi_truoc":"Không cần chuẩn bị gì. Chỉ cần khoảng 5 phút yên tĩnh.","neu_sai":"Không có gì sai được. Toàn bộ là đồ giả, không có sản phẩm thật, không đăng đi đâu."},"steps":[{"id":"1","ten":"Bấm thử một cái nút","ban_can_biet":"Bạn sắp bấm một nút. Máy sẽ tự làm một việc kỹ thuật nhỏ rồi cho bạn xem kết quả.\nBạn không cần hiểu nó làm gì.","de_hieu_hon":"Giống bấm nút cân điện tử. Không cần biết bên trong cân hoạt động thế nào.","ban_dang_quyet_dinh":"Có cho máy chạy thử một lệnh vô hại không.","neu_dong_y":"Máy chạy, in ra một dòng chữ. Không có gì thay đổi trên máy bạn.","neu_tu_choi":"Không sao cả. Bạn có thể quay lại lúc khác.","vi_sao":"Để bạn thấy toàn bộ việc của bạn với phần mềm này chỉ là đọc và bấm.","loai":"REVERSIBLE","xong_khi":"Có chữ hiện ra trong khung màu đen.","neu_loi":"Báo lỗi thì chụp màn hình gửi người phụ trách. Đừng tự mò.","_kq":"Python 3.13.1\n","tu_tay":false},{"id":"2","ten":"Hai cái đèn khác nhau chỗ nào","ban_can_biet":"Ở bước trên bạn thấy hai ô nhỏ. Ô xanh MÁY ĐẠT nghĩa là lệnh chạy trót lọt.\nÔ vàng QUẢN TRỊ CHƯA XÁC MINH nghĩa là chưa ai duyệt kết quả đó.","de_hieu_hon":"Máy tính tiền in ra hoá đơn — đó là MÁY ĐẠT.\nBạn đếm lại tiền và thấy đúng — đó mới là ĐÃ XÁC MINH.\nKhông ai giao tiền cho khách chỉ vì máy in ra hoá đơn.","ban_dang_quyet_dinh":"Không có gì để quyết. Chỉ cần hiểu.","vi_sao":"Đây là điều quan trọng nhất trong toàn bộ phần mềm. Nhầm chỗ này là nhầm mọi thứ.","loai":"REVERSIBLE","xong_khi":"Bạn nói lại được bằng lời của mình — máy chạy xong không có nghĩa là đã đúng.","cau_hoi":"Máy in ra kết quả rồi. Bạn nên làm gì tiếp?","lua_chon":"Tin ngay và làm bước sau|Tự nhìn kết quả xem có đúng như mong đợi không rồi mới đi tiếp|Gọi người phụ trách hỏi mỗi lần","dap_an":"B","vi_sao_dap_an":"Máy tính tiền in hoá đơn không có nghĩa là bạn khỏi đếm lại tiền. Máy làm phần máy, bạn kiểm phần bạn.","tu_tay":true},{"id":"3","ten":"Đọc bảng điều cấm nói","ban_can_biet":"Có những câu không được nói khi bán thực phẩm. Không phải vì khó tính,\nmà vì nói sai có thể bị phạt và mất khách.","ban_dang_quyet_dinh":"Có đọc hết bảng này không.","neu_dong_y":"Máy in ra bảng. Bạn đọc khoảng 1 phút.","neu_tu_choi":"Bạn sẽ không biết mình đang được phép nói gì. Rủi ro là của bạn.","vi_sao":"Bài tập sau sẽ dùng đúng bảng này.","loai":"REVERSIBLE","xong_khi":"Bạn đọc xong và nhớ được ít nhất hai điều không được nói.","_kq":"# NHỮNG ĐIỀU KHÔNG ĐƯỢC NÓI VỀ NÔNG SẢN\n\nBản giả để tập. Nhưng nội dung thì thật.\n\n## Tuyệt đối không nói\n\n1. **\"Chữa được bệnh\"** — rau củ là thực phẩm, không phải thuốc. Nói chữa bệnh là vi phạm quảng cáo.\n2. **\"Phòng ngừa ung thư\"**, \"thải độc gan\", \"tăng đề kháng\" — đều là khẳng định y tế.\n3. **\"100% sạch\"**, \"hoàn toàn không hoá chất\" — không ai chứng minh được, và chỉ cần một mẫu kiểm là mất uy tín.\n4. **\"Hữu cơ\"** nếu chưa có chứng nhận — đây là từ có định nghĩa pháp lý, không phải từ mô tả.\n5. **Cam kết cân nặng, thời gian giao, hay giá** mà mình không kiểm soát được.\n\n## Nói thế nào cho đúng\n\n| Đừng nói | Nói thế này |\n|---|---|\n| Rau này chữa tiểu đường | Rau này ít tinh bột, nhiều chất xơ |\n| 100% sạch không hoá chất | Trồng theo phương pháp X, có phiếu kiểm ngày Y |\n| Rau hữu cơ | Rau trồng tự nhiên, chưa có chứng nhận hữu cơ |\n| Ăn vào là khỏe | Nhiều vitamin C, phù hợp bữa ăn hằng ngày |\n\n## Nguyên tắc một câu\n\n**Nói cái mình biết chắc và chứng minh được. Không nói cái mình mong khách tin.**\n","tu_tay":false},{"id":"4","ten":"Bấm thử ba nút xám","ban_can_biet":"Ba nút xám là cách duy nhất bạn báo cho người viết phần mềm biết chỗ nào khó dùng.","de_hieu_hon":"Giống chuông gọi phục vụ. Tập bấm khi chưa cần, để lúc cần thì tay tự bấm.","ban_dang_quyet_dinh":"Có thử bấm không.","neu_dong_y":"Máy hỏi bạn vài câu, ghi lại. Không ai đánh giá gì cả.","neu_tu_choi":"Phần mềm sẽ mãi khó dùng vì không ai biết nó khó ở đâu.","vi_sao":"Bấm nhiều là tốt. Đây là dữ liệu quý nhất.","loai":"REVERSIBLE","xong_khi":"Đã bấm cả ba nút.","tu_tay":true}],"duoc_mo":true,"ly_do_khoa":"","la_tap":true},{"meta":{"id":"RB_S02","title":"[TẬP - BÁN HÀNG] Duyệt bài đăng do AI soạn","mo_ta":"Bài tập đúng với việc bạn sẽ làm nhiều nhất — đọc bài AI viết, tìm chỗ sai, quyết định đăng hay không.","thoi_gian":"khoảng 12 phút","la_tap":"co","muc_dich":"Tập nhìn ra chỗ sai trong bài AI viết, trước khi nó ra tới mắt khách hàng.","sau_khi_xong":"Bạn biết bốn loại câu không được nói, và biết cách viết lại cho đúng mà vẫn bán được hàng.","chuan_bi_truoc":"Nên làm bài RB_S01 trước để biết bảng điều cấm nói.","neu_sai":"Không sai được. Bài này là bài giả, không đăng đi đâu cả."},"steps":[{"id":"1","ten":"Xem thông tin thật của sản phẩm","ban_can_biet":"Trước khi đọc bài quảng cáo, phải biết sự thật về sản phẩm.\nĐây là thông tin gốc từ vườn.","ban_dang_quyet_dinh":"Không có gì để quyết. Chỉ đọc.","vi_sao":"Không biết sự thật thì không biết bài viết nói quá chỗ nào.","loai":"REVERSIBLE","xong_khi":"Bạn thấy hai dòng quan trọng — PHIEU KIEM chua co, CHUNG NHAN HUU CO chua co.","_kq":"TEN: Rau cai ngot\nNGUON: Vuon mau\nNGAY THU HOACH: hom nay\nCACH TRONG: khong phun thuoc tru sau trong 15 ngay truoc thu hoach\nPHIEU KIEM: chua co\nCHUNG NHAN HUU CO: chua co\nGIA NHAP: 12.000/kg\nGIA BAN DU KIEN: 20.000/kg\n","tu_tay":false},{"id":"2","ten":"Đọc bài AI soạn","ban_can_biet":"Máy sẽ in ra bài quảng cáo do AI viết. AI viết rất trôi chảy và rất tự tin.\nTrôi chảy không có nghĩa là đúng.","ban_dang_quyet_dinh":"Không có gì để quyết. Đọc kỹ thôi.","vi_sao":"Đây là loại bài bạn sẽ nhận hằng ngày nếu dùng AI viết nội dung.","loai":"REVERSIBLE","xong_khi":"Đã đọc hết bài, khoảng 4 dòng.","_kq":"BAI NHAP DO AI SOAN — CHO NGUOI DUYET\n\nRau cai ngot huu co 100% sach, khong he co hoa chat!\n\nAn rau cai ngot moi ngay giup thai doc gan, tang de khang va phong ngua ung thu\nhieu qua. Cam ket rau tuoi ngon nhat thi truong, giao trong 30 phut.\n\nDat ngay keo het! Chi 20.000/kg.\n","tu_tay":false},{"id":"3","ten":"Bạn tìm được bao nhiêu chỗ sai","ban_can_biet":"Bài đó có ít nhất năm chỗ sai so với thông tin thật ở bước 1\nvà bảng điều cấm nói. Thử tự tìm trước.","de_hieu_hon":"Giống soi hàng trước khi nhận. Nhìn kỹ rồi mới ký nhận.","ban_dang_quyet_dinh":"Bạn tự đánh giá — bài này đăng được hay không.","neu_dong_y":"Bạn ghi ra những chỗ sai mình tìm được, rồi sang bước sau đối chiếu.","neu_tu_choi":"Bỏ qua bước này thì bài tập mất hết tác dụng.","vi_sao":"Đây là năng lực không AI nào thay bạn được — bạn biết sự thật về hàng của mình.","loai":"REVERSIBLE","xong_khi":"Bạn ghi ra giấy hoặc nghĩ trong đầu được ít nhất ba chỗ sai.","socratic":"Trong bài đó có câu nào mà nếu khách hàng tin theo rồi phát hiện không đúng,\nbạn sẽ mất khách vĩnh viễn không?","tu_tay":true},{"id":"4","ten":"Đối chiếu năm chỗ sai","ban_can_biet":"Năm chỗ sai là —\nMột. \"Hữu cơ\" nhưng thông tin gốc ghi rõ CHƯA CÓ CHỨNG NHẬN HỮU CƠ. Đây là từ có định nghĩa pháp lý.\nHai. \"100% sạch, không hề có hoá chất\" — không có phiếu kiểm thì không ai chứng minh được.\nBa. \"Thải độc gan, tăng đề kháng, phòng ngừa ung thư\" — ba khẳng định y tế, đều không được nói.\nBốn. \"Tươi ngon nhất thị trường\" — so sánh không chứng minh được.\nNăm. \"Giao trong 30 phút\" — cam kết không kiểm soát được, sai một lần là mất uy tín.","ban_dang_quyet_dinh":"So với danh sách bạn tự tìm ở bước 3 — bạn sót mấy chỗ.","vi_sao":"Sót chỗ nào thì lần sau để ý chỗ đó. Không ai tìm đủ ngay lần đầu.","loai":"REVERSIBLE","xong_khi":"Bạn biết mình sót những chỗ nào.","cau_hoi":"Trong bài AI viết, câu nào dễ làm bạn MẤT KHÁCH QUEN nhất?","lua_chon":"Giao trong 30 phút|Rau cải ngọt hữu cơ 100% sạch|Chỉ 20.000/kg|Đặt ngay kẻo hết","dap_an":"B","vi_sao_dap_an":"Khách quen 6 năm sẽ hỏi phiếu kiểm và chứng nhận hữu cơ. Không có mà vẫn nói là mất niềm tin vĩnh viễn. Giao trễ 30 phút thì xin lỗi được, nói dối về nguồn gốc thì không.","tu_tay":true},{"id":"5","ten":"Viết lại cho đúng mà vẫn bán được","ban_can_biet":"Viết đúng không có nghĩa là viết nhạt. Bản dưới đây nói ít hơn nhưng đáng tin hơn,\nvà không có câu nào bị cấm.","noi_dung_can_dan":"Rau cải ngọt vườn mẫu — thu hoạch sáng nay.\\nKhông phun thuốc trừ sâu trong 15 ngày trước thu hoạch.\\nRau tươi, giòn, hợp canh và xào. 20.000/kg.\\nChưa có chứng nhận hữu cơ — em nói thật để anh chị biết.","dan_vao_dau":"Đây là bài tập, không cần dán đi đâu. Chỉ cần đọc và so với bài cũ.","ban_dang_quyet_dinh":"Bạn thấy bản này có bán được hàng không, so với bản nói quá.","de_hieu_hon":"Câu cuối \"chưa có chứng nhận hữu cơ, em nói thật\" nghe như điểm yếu,\nnhưng khách mua nông sản lâu năm sẽ tin bạn hơn vì câu đó.","vi_sao":"Người bán hàng giỏi nhất là người khách tin. Nói quá được một lần, mất khách vĩnh viễn.","loai":"REVERSIBLE","xong_khi":"Bạn tự trả lời được — bản nào bạn muốn khách quen của mình đọc.","socratic":"Nếu một khách quen 6 năm đọc bản cũ rồi hỏi \"phiếu kiểm đâu em\", bạn trả lời sao?","tu_tay":true}],"duoc_mo":true,"ly_do_khoa":"","la_tap":true},{"meta":{"id":"RB_S03","title":"[TẬP - BÁN HÀNG] Việc không rút lại được","mo_ta":"Bài quan trọng nhất. Học phân biệt việc sửa được và việc không sửa được.","thoi_gian":"khoảng 8 phút","la_tap":"co","muc_dich":"Để bạn dừng lại đúng lúc trước những việc không lấy lại được.","sau_khi_xong":"Bạn phân biệt được ba loại việc, và biết loại nào phải hỏi trước khi làm.","chuan_bi_truoc":"Không cần gì.","neu_sai":"Không sai được, đây là bài tập."},"steps":[{"id":"1","ten":"Ba loại việc","ban_can_biet":"Loại một — SỬA ĐƯỢC. Ghi nhầm giá vào file, sửa lại là xong.\nLoại hai — SỬA ĐƯỢC NHƯNG MẤT CÔNG. Giao nhầm hàng, phải đi đổi, tốn xe tốn thời gian.\nLoại ba — KHÔNG LẤY LẠI ĐƯỢC. Đăng bài lên mạng, gửi tin nhắn hàng loạt, chuyển tiền.","de_hieu_hon":"Loại một là viết bút chì. Loại hai là viết bút mực còn tẩy được.\nLoại ba là xăm lên da.","ban_dang_quyet_dinh":"Không có gì để quyết. Chỉ cần nhớ ba loại.","vi_sao":"Phần mềm sẽ luôn ghi rõ việc bạn sắp làm thuộc loại nào. Bạn phải hiểu ba chữ đó.","loai":"REVERSIBLE","xong_khi":"Bạn lấy được một ví dụ cho mỗi loại từ công việc bán hàng thật của mình.","cau_hoi":"Việc nào sau đây KHÔNG rút lại được?","lua_chon":"Ghi nhầm giá vào file trong máy|Giao nhầm hàng cho khách|Đăng bài lên Facebook rồi xoá sau 5 phút","dap_an":"C","vi_sao_dap_an":"Xoá bài xong nhưng trong 5 phút đó đã có người đọc, chụp màn hình, chia sẻ. Facebook xoá được bài, không xoá được trí nhớ người ta. Giao nhầm hàng thì đi đổi được, tốn công thôi.","tu_tay":true},{"id":"2","ten":"Vì sao đăng bài là không rút lại được","ban_can_biet":"Bạn xoá bài sau 5 phút. Nhưng trong 5 phút đó có người đã đọc, đã chụp màn hình,\nđã chia sẻ. Facebook xoá được bài, không xoá được trí nhớ của người ta.","de_hieu_hon":"Giống nói một câu trước đám đông. Nói xong xin rút lại thì ai cũng đã nghe rồi.","ban_dang_quyet_dinh":"Không có gì để quyết. Cần hiểu thôi.","vi_sao":"Đây là lý do phần mềm bắt bạn xác nhận hai lần với những việc loại ba.","loai":"REVERSIBLE","xong_khi":"Bạn hiểu vì sao nút xoá bài không phải là nút hoàn tác.","canh_bao_nguy_hiem":"Bước này chỉ đọc, không nguy hiểm. Nhưng nội dung nó nói về loại việc nguy hiểm nhất bạn sẽ gặp — đăng bài công khai. Đọc kỹ.","tu_kiem_bang_tay":"Không cần kiểm gì. Chỉ cần đọc chậm.","tu_tay":true},{"id":"3","ten":"Xem những cổng đang khoá","ban_can_biet":"Máy sẽ in ra bảng cổng. Ba dòng cuối ghi FORBIDDEN —\nhoàn tiền khách, đổi giá công khai, hứa về sức khoẻ.","ban_dang_quyet_dinh":"Có đọc bảng này không.","neu_dong_y":"Bạn thấy rõ việc nào máy sẽ không bao giờ cho làm tự động.","vi_sao":"FORBIDDEN khác NOT_AUTHORIZED. NOT_AUTHORIZED là chưa tới lúc.\nFORBIDDEN là không bao giờ, dù ai có quyền đến đâu.","loai":"REVERSIBLE","xong_khi":"Bạn thấy ba dòng FORBIDDEN.","socratic":"Ba việc đó khoá để bảo vệ ai — khách hàng, người phụ trách, hay chính bạn?","_kq":"# VIỆC ĐANG LÀM — BẢN GIẢ ĐỂ TẬP\n\n```text\nDOC_THONG_TIN: HUMAN_AUTHORIZED\nSOAN_NHAP_BAI: HUMAN_AUTHORIZED\nDANG_BAI_CONG_KHAI: NOT_AUTHORIZED\nGUI_EMAIL_HANG_LOAT: NOT_AUTHORIZED\nHOAN_TIEN_KHACH: FORBIDDEN\nDOI_GIA_CONG_KHAI: FORBIDDEN\nHUA_VE_SUC_KHOE: FORBIDDEN\n```\n\nBa dòng cuối là `FORBIDDEN` — không bao giờ mở, dù ai có quyền đến đâu.\n","tu_tay":false},{"id":"4","ten":"Một câu cần nhớ","ban_can_biet":"Trước bất cứ việc gì có chữ KHÔNG HOÀN TÁC ĐƯỢC, tự hỏi đúng một câu —\n\"Nếu việc này sai, ai chịu, và có sửa được không?\"\nTrả lời được thì làm. Chưa trả lời được thì hỏi người phụ trách.","de_hieu_hon":"Giống trước khi ký nhận hàng — đếm lại một lần nữa mất 30 giây,\nnhưng ký nhầm thì mất cả lô hàng.","ban_dang_quyet_dinh":"Bạn có cam kết với chính mình sẽ hỏi câu đó không.","neu_dong_y":"Bạn sẽ chậm hơn vài giây mỗi lần, và tránh được sai lầm lớn.","neu_tu_choi":"Bạn nhanh hơn vài giây, và sớm muộn sẽ đăng nhầm một bài không xoá được.","vi_sao":"Chỉ cần nhớ một câu này là đủ cho 90% tình huống.","loai":"REVERSIBLE","xong_khi":"Bạn nhớ được câu hỏi đó.","tu_tay":true}],"duoc_mo":true,"ly_do_khoa":"","la_tap":true}];
+async function J(u,b){await new Promise(r=>setTimeout(r,120));
+ if(u==='/api/runbooks')return _RB;
+ if(u==='/api/version')return{phien_ban:'3.0.1-pilot-rc.4 — ứng viên trải nghiệm công khai'};
+ if(u==='/api/cong')return{_DEMO:1};
+ if(u==='/api/chay'){const s=_tim(b.runbook,b.buoc);return{ma_thoat:0,ra:(s&&s._kq)||'(bản trải nghiệm — kết quả làm mẫu)',loi:'',giay:0.3,bien_lai:'(bản trải nghiệm)'}}
+ if(u==='/api/kiem_chung')return{dat:true,thieu:[],ra:'(bản trải nghiệm — ở bản thật máy đi kiểm thật và có thể báo CHƯA ĐÚNG)',ma_thoat:0};
+ return{da_ghi:true,ok:true}}
+function _tim(rb,bu){for(const r of _RB)if(r.meta.id===rb)for(const s of r.steps)if(String(s.id)===String(bu)||('kiem-truoc-'+s.id)===String(bu))return s;return null}
+
+addEventListener('load',async()=>{
+  RB=await J('/api/runbooks'); veDs(); veCong();
+  const v=await J('/api/version'); $('#f-ver').textContent='phiên bản '+v.phien_ban;
+  $('#nguoi').value='';
+  $('#nguoi').oninput=e=>{$('#f-nguoi').textContent=e.target.value||'Người trải nghiệm'};
+  $('#f-nguoi').textContent='Người trải nghiệm';
+  capNhatDemSo();
+});
+
+async function veCong(){
+  const g=await J('/api/cong'); const b=$('#cong-box');
+  if(g._DEMO){b.innerHTML='<div class="card warnbox"><b>Đây là bản trải nghiệm.</b> Không lệnh nào chạy thật, không đụng vào máy bạn.</div>';return}
+  if(g._LOI_DOC){b.innerHTML=`<div class="card badbox"><b>Không đọc được trạng thái cổng của hệ P0.</b>
+    <p style="margin:8px 0">Mọi việc có ràng buộc cổng sẽ bị khoá. Thà khoá nhầm còn hơn cho qua nhầm.</p>
+    <p class="kv">Chi tiết: ${esc(g._LOI_DOC)}</p></div>`;return}
+  const rows=Object.entries(g).map(([k,v])=>{
+    const mo=['HUMAN_AUTHORIZED','AUTHORIZED','OPEN'].includes(v);
+    const cam=v==='FORBIDDEN';
+    return `<tr><td style="padding:3px 14px 3px 0">${esc(k)}</td>
+      <td><span class="tag ${cam?'t-bad':mo?'t-ok':'t-dim'}">${cam?'CẤM':mo?'MỞ':'ĐÓNG'}</span></td>
+      <td class="kv" style="padding-left:10px">${esc(v)}</td></tr>`}).join('');
+  b.innerHTML=`<div class="card"><div class="lbl">Cổng của hệ ngay lúc này — đọc trực tiếp từ hệ sống</div>
+    <table style="font-size:14px;border-collapse:collapse">${rows}</table>
+    <p class="kv" style="margin-top:10px"><b>MỞ</b> = làm được. <b>ĐÓNG</b> = chưa tới lúc, sau này mở.
+    <b>CẤM</b> = không bao giờ, sửa file cấu hình cũng không mở.</p></div>`;
+}
+
+function veDs(){
+  const d=$('#ds'); d.innerHTML='';
+  if(!RB.length){d.innerHTML='<div class="card">Chưa có bài trải nghiệm nào.</div>';return}
+  RB.forEach((r,i)=>{
+    const c=E('div'); c.className='card'+(r.la_tap?' tap':'');
+    const khoa=r.duoc_mo===false;
+    const soQD=r.steps.filter(s=>s.ban_dang_quyet_dinh).length;
+    c.innerHTML=`<div style="font-weight:600;font-size:17.5px">${khoa?'🔒 ':''}${esc(r.meta.title)}</div>
+      <p class="kv">${esc(r.meta.mo_ta||'')}</p>
+      <div class="kv">${r.steps.length} bước · ${soQD} chỗ bạn phải quyết · ${esc(r.meta.thoi_gian||'')}${r.cong?' · cần cổng '+esc(r.cong):''}</div>
+      ${khoa?`<div class="badbox"><b>Việc này đang bị khoá.</b><br>${esc(r.ly_do_khoa)}
+        <p class="kv" style="margin:7px 0 0">Không phải bạn làm sai. Cổng mở lại thì việc này tự hiện ra.</p></div>`
+      :'<div class="row"><button class="big">Xem trước rồi quyết</button></div>'}`;
+    if(!khoa) c.querySelector('button').onclick=()=>moBrief(i);
+    d.appendChild(c);
+  });
+}
+function ve(){['v-brief','v-run'].forEach(x=>$('#'+x).classList.add('hide'));$('#v-home').classList.remove('hide')}
+function veBrief(){['v-home','v-run'].forEach(x=>$('#'+x).classList.add('hide'));$('#v-brief').classList.remove('hide')}
+
+function moBrief(i){
+  cur=RB[i]; idx=0; cham=0; nhatky=[]; daTraLoi={}; diemDung=0; diemSai=0; daXem={}; phanHoi=[]; feedbackId=taoFeedbackId(); feedbackPacketText=''; stoppedStep=''; capNhatDemSo();
+  const m=cur.meta;
+  $('#b-ten').textContent=m.title; $('#b-mota').textContent=m.mo_ta||'';
+  $('#b-tapbar').innerHTML = cur.la_tap ? '<div class="tapbar"><b>ĐANG TẬP — toàn đồ giả.</b> Bấm sai thoải mái. Hệ thật không bị đụng tới.</div>' : '';
+  $('#b-mucdich').innerHTML = esc(m.muc_dich||m.mo_ta||'(chưa ghi)');
+  $('#b-ketqua').innerHTML  = esc(m.sau_khi_xong||'(chưa ghi)');
+  $('#b-chuanbi').innerHTML = esc(m.chuan_bi_truoc||'Không cần chuẩn bị gì.');
+  $('#b-neusai').innerHTML  = esc(m.neu_sai||'Việc này chỉ đọc, không sửa gì. Sai thì làm lại.');
+
+  const qd=cur.steps.map((s,j)=>s.ban_dang_quyet_dinh?`<div class="mrow">
+      <div class="mnum key">${j+1}</div><div>${esc(s.ban_dang_quyet_dinh)}</div></div>`:'').filter(Boolean);
+  $('#b-quyetdinh').innerHTML = qd.length
+    ? qd.join('')+`<p class="kv" style="margin-top:10px">${qd.length} chỗ. Ở mỗi chỗ bạn đều có quyền nói không.</p>`
+    : '<p class="kv" style="margin:0">Việc này không có chỗ nào cần bạn quyết. Chỉ đọc và xem.</p>';
+
+  $('#b-map').innerHTML = cur.steps.map((s,j)=>`<div class="mrow">
+      <div class="mnum ${s.ban_dang_quyet_dinh?'key':''}">${j+1}</div>
+      <div><b>${esc(s.ten||'')}</b>${s.tu_tay?' <span class="tag t-dim">bạn tự làm</span>':' <span class="tag t-ok">mô phỏng trên trang</span>'}
+      ${nguyHiem(s)?' <span class="tag t-bad">⚠ nguy hiểm — phải xem trước</span>':''}
+      <div class="kv">${esc((s.giai_thich||'').slice(0,110))}${(s.giai_thich||'').length>110?'…':''}</div></div></div>`).join('');
+  const soNH=cur.steps.filter(s=>nguyHiem(s)).length;
+  if(soNH) $('#b-neusai').insertAdjacentHTML('beforeend',
+    `<div class="badbox" style="margin-top:10px"><b>⚠ Việc này có ${soNH} bước nguy hiểm.</b><br>
+     Ở những bước đó, máy sẽ bắt bạn tự đi xem hiện trạng thư mục TRƯỚC KHI cho bấm đồng ý.
+     Nút đồng ý bị khoá cho tới khi bạn xem.</div>`);
+  const soCH=cur.steps.filter(s=>s.cau_hoi).length;
+  const soKC=cur.steps.filter(s=>s.kiem_chung).length;
+  $('#b-quyetdinh').insertAdjacentHTML('beforeend',
+    `<div class="warnbox" style="margin-top:14px"><b>Làm sao biết bạn làm đúng hay sai</b><br>
+     ${soKC?`<b>${soKC} bước</b> máy sẽ tự đi kiểm kết quả sau khi bạn nói đã làm xong — máy không tin lời, máy nhìn kết quả.<br>`:''}
+     ${soCH?`<b>${soCH} câu hỏi</b> kiểm tra hiểu biết, có chấm đúng sai ngay tại chỗ.<br>`:''}
+     ${!soKC&&!soCH?'Bài này không có chỗ nào máy chấm được. Bạn tự đánh giá.':'Cuối bài có bảng tổng kết bạn đúng mấy, sai mấy.'}</div>`);
+  $('#b-start').onclick=batDau;
+  veBrief();
+}
+
+function batDau(){
+  ['v-home','v-brief'].forEach(x=>$('#'+x).classList.add('hide'));$('#v-run').classList.remove('hide');
+  $('#r-ten').textContent=cur.meta.title;
+  $('#r-tapbar').innerHTML = cur.la_tap ? '<div class="tapbar"><b>ĐANG TẬP — toàn dữ liệu mô phỏng.</b> Bấm sai thì chọn “Về danh sách việc” và làm lại.</div>' : '';
+  veBuoc();
+}
+
+function veBanDo(){
+  $('#r-map').innerHTML=`<div class="lbl">Bạn đang ở đâu</div>`+cur.steps.map((s,j)=>`<div class="mrow">
+      <div class="mnum ${j<idx?'ok':j===idx?'now':s.ban_dang_quyet_dinh?'key':''}">${j<idx?'✓':j+1}</div>
+      <div style="${j===idx?'font-weight:600':'color:#5b636e'}">${esc(s.ten||'')}</div></div>`).join('');
+}
+
+function veBuoc(){
+  veBanDo();
+  const box=$('#r-buoc'); box.innerHTML='';
+  if(idx>=cur.steps.length){xongViec();return}
+  const s=cur.steps[idx], i=idx;
+  const tuTay=!!s.tu_tay;
+  const c=E('div'); c.className='card act';
+  c.innerHTML=`
+    <div class="lbl">Bước ${i+1} trên ${cur.steps.length}</div>
+    <h2 style="margin:0 0 10px">${esc(s.ten||'')}</h2>
+    ${nguyHiem(s)?`<div class="badbox" style="border-width:2px">
+      <div style="font-size:17px;font-weight:600;margin-bottom:6px">⚠ DỪNG LẠI — BƯỚC NÀY NGUY HIỂM</div>
+      <div>${esc(s.canh_bao_nguy_hiem||'Bước này có thể ghi đè hoặc xoá dữ liệu. Làm sai là không lấy lại được.')}</div>
+      <div class="lbl" style="margin-top:14px">Bạn phải tự đi xem hiện trạng trước khi làm</div>
+      ${s.tu_kiem_bang_tay?`<div style="margin-bottom:10px">${esc(s.tu_kiem_bang_tay)}</div>`:''}
+      <div class="row" style="margin-top:8px">
+        ${s.kiem_truoc?'<button id="btn-xem" class="big">Cho tôi xem hiện trạng ngay bây giờ</button>':''}
+        <button id="btn-daxem">Tôi đã tự mở File Explorer và xem rồi</button>
+      </div>
+      <div id="hien-trang"></div>
+      <p class="kv" style="margin-top:10px">Nút đồng ý bên dưới <b>bị khoá</b> cho tới khi bạn xem hiện trạng.
+      Đây là cố ý — bước này từng gây sự cố thật.</p>
+    </div>`:''}
+
+    <div class="lbl" style="margin-top:16px">1 · Bạn cần biết gì trước</div>
+    <div>${esc(s.ban_can_biet||s.giai_thich||'')}</div>
+    ${s.vi_sao?`<p class="kv" style="margin-top:8px"><b>Vì sao có bước này:</b> ${esc(s.vi_sao)}</p>`:''}
+
+    <div class="lbl" style="margin-top:18px">2 · Loại bước này — và ai kiểm được</div>
+    <div class="kv">${s.kiem_chung
+      ? '<span class="tag t-ok">MÁY KIỂM ĐƯỢC</span> Sau khi bạn bấm xong, máy sẽ tự đi kiểm xem việc đã thật sự xảy ra chưa. Bạn không cần tự tin — máy kiểm hộ.'
+      : tuTay
+        ? '<span class="tag t-warn">MÁY KHÔNG KIỂM ĐƯỢC</span> Bước này máy không kiểm hộ được. Bạn tự chịu trách nhiệm, nên đọc kỹ phần "coi là xong khi".'
+        : '<span class="tag t-ok">MÁY TỰ LÀM</span> Máy chạy và tự báo kết quả. Bạn kiểm lại kết quả.'}</div>
+
+    <div class="lbl" style="margin-top:18px">3 · Bạn đang quyết định điều gì</div>
+    <div class="infobox" style="margin-top:0">${esc(s.ban_dang_quyet_dinh||'Bước này không có gì để quyết. Chỉ xem kết quả rồi đi tiếp.')}</div>
+
+    <div class="two">
+      <div class="okbox"><b>Nếu bạn đồng ý</b><br>${esc(s.neu_dong_y||(tuTay?'Bạn tự làm việc này rồi bấm xong.':'Máy chạy đúng một lệnh, rồi in kết quả cho bạn xem.'))}</div>
+      <div class="warnbox"><b>Nếu bạn từ chối</b><br>${esc(s.neu_tu_choi||'Dừng lại ở đây. Không có gì thay đổi. Làm lại lúc khác được.')}</div>
+    </div>
+
+    ${s.loai==='IRREVERSIBLE'?'<div class="badbox"><b>Không hoàn tác được.</b> Làm xong là không lấy lại. Đọc kỹ trước khi bấm.</div>':
+      s.loai==='COMPENSABLE'?'<div class="warnbox"><b>Sửa được nhưng phải làm thêm việc.</b></div>':
+      '<div class="kv">Việc này hoàn tác được. Sai thì làm lại.</div>'}
+
+    ${s.noi_dung_can_dan?`<div class="lbl" style="margin-top:16px">Nội dung cần dán</div>
+      <pre id="nd">${esc((s.noi_dung_can_dan||'').replace(/\\n/g,'\n'))}</pre>
+      <div class="row"><button onclick="chep(this)">Chép nội dung này</button></div>`:''}
+    ${s.dan_vao_dau?`<div class="warnbox"><b>Dán vào đây:</b><br>${esc(s.dan_vao_dau)}</div>`:''}
+
+
+    ${s.cau_hoi?`<div class="lbl" style="margin-top:18px">Câu hỏi kiểm tra — trả lời trước khi đi tiếp</div>
+      <div class="infobox" id="o-cau-hoi" role="group" aria-live="polite" tabindex="-1" style="margin-top:0;transition:background .6s,border-color .6s">
+      <b>${esc(s.cau_hoi)}</b>
+      <p class="kv" style="margin:6px 0 0">Bấm một đáp án A/B/C/D bên dưới. Sai không sao — trang sẽ giải thích ngay.</p>
+      <div id="lc" style="margin-top:10px"><p class="kv">Đang tải lựa chọn…</p></div></div>`:''}
+    ${s.xong_khi?`<div class="lbl" style="margin-top:16px">Coi là xong khi</div><div>${esc(s.xong_khi)}</div>`:''}
+    ${s.socratic?`<div class="warnbox" style="margin-top:14px"><b>Tự hỏi trước khi bấm:</b><br>${esc(s.socratic)}</div>`:''}
+
+    <div class="row">
+      <button class="big" id="nut-tiep" ${nguyHiem(s)&&!daXem[idx]?'disabled style="opacity:.4;cursor:not-allowed"':''}>${
+        s.cau_hoi&&daTraLoi[idx]===undefined?'↑ Trả lời câu hỏi ở trên đã':(tuTay?'Tôi đã tự làm xong':'Tôi hiểu rồi — đồng ý')}</button>
+      <button class="stop">Không — dừng lại đây</button>
+      <button class="ghost" data-a="kho">Đọc không hiểu?</button>
+      <button class="ghost" data-a="bi">Tôi đang bí</button>
+      <button class="ghost" data-a="gy">Sửa chỗ này</button>
+    </div>
+    <div id="nhac-cau-hoi"></div>
+    <div id="kq"></div>`;
+  c.querySelector('.big').onclick=()=>{
+    if(s.cau_hoi && daTraLoi[idx]===undefined){
+      const o=document.getElementById('o-cau-hoi');
+      if(o){o.scrollIntoView({behavior:'smooth',block:'center'});o.focus();
+        o.style.background='#fae9e8'; o.style.borderColor='#a91f18';
+        setTimeout(()=>{o.style.background='';o.style.borderColor=''},1500)}
+      const nh=document.getElementById('nhac-cau-hoi');
+      if(nh)nh.innerHTML='<div class="badbox" style="margin-top:10px"><b>Bạn chưa chọn đáp án.</b><br>'+
+        'Câu hỏi nằm trong khung đang sáng đỏ. Bấm một trong các nút đáp án <b>A/B/C/D</b> trong khung đó. '+
+        'Bấm xong máy chấm ngay và nút bên dưới sẽ mở.</div>';
+      return}
+    if(tuTay){cham++;s.kiem_chung?kiemChung(s):(ghi(s,'TU_LAM'),idx++,veBuoc())}else chay(s)};
+  if(nguyHiem(s)){
+    const bx=c.querySelector('#btn-xem'), bd=c.querySelector('#btn-daxem');
+    if(bx) bx.onclick=()=>xemHienTrang(s);
+    if(bd) bd.onclick=()=>{
+      if(!confirm('Bạn xác nhận đã tự mở File Explorer, vào đúng thư mục đó và nhìn thấy trong đó có gì?\n\nNếu chưa, hãy bấm Huỷ và đi xem đã.'))return;
+      daXem[idx]='TU_XEM'; veBuoc()};
+  }
+  c.querySelector('.stop').onclick=()=>tuChoi(s);
+  c.querySelector('[data-a=kho]').onclick=()=>alert((s.de_hieu_hon||s.ban_can_biet||s.giai_thich||'')+
+    '\n\nVẫn chưa rõ thì bấm "Tôi đang bí" — máy sẽ ghi lại để sửa hướng dẫn này.');
+  c.querySelector('[data-a=bi]').onclick=()=>biTac(s);
+  c.querySelector('[data-a=gy]').onclick=()=>hoiGopY('bước '+(i+1)+' của '+cur.meta.id);
+  box.appendChild(c);
+  if(s.cau_hoi) veCauHoi(s);   // PHAI goi SAU khi the da nam trong trang, neu khong #lc chua ton tai
+}
+
+function nguyHiem(s){
+  return !!(s.canh_bao_nguy_hiem || s.kiem_truoc || s.loai==='IRREVERSIBLE');
+}
+async function xemHienTrang(s){
+  const box=document.getElementById('hien-trang');
+  box.innerHTML='<p class="kv">Đang xem hiện trạng… lệnh này chỉ đọc, không sửa gì.</p>';
+  const r=await J('/api/chay',{lenh:s.kiem_truoc,thu_muc:s.thu_muc,runbook:cur.meta.id,
+    cong:cur.meta.cong_phai_mo||'',nguon_cong:cur.meta.nguon_cong||'',
+    buoc:'kiem-truoc-'+s.id,loai:'REVERSIBLE',nguoi:nguoi()});
+  if(r.tu_choi){box.innerHTML=`<div class="warnbox">Máy không chạy được lệnh xem: ${esc(r.ly_do)}
+    <br>Bạn tự mở File Explorer để xem nhé.</div>`;return}
+  const ra=(r.ra||'')+(r.loi||'');
+  box.innerHTML=`<div class="lbl" style="margin-top:12px">Hiện trạng thư mục ngay lúc này</div>
+    <pre>${esc(ra||'(trống)')}</pre>
+    ${s.doc_hien_trang?`<div class="warnbox"><b>Cách đọc bảng trên:</b><br>${esc(s.doc_hien_trang)}</div>`:''}
+    <div class="row"><button class="big" id="ok-xem">Tôi đã xem và hiểu — mở khoá nút đồng ý</button>
+    <button class="stop" onclick="tuChoi(cur.steps[idx])">Có gì đó không ổn — dừng lại</button></div>`;
+  document.getElementById('ok-xem').onclick=()=>{daXem[idx]='DA_XEM_MAY';veBuoc()};
+}
+function veCauHoi(s){
+  const box=document.getElementById('lc');
+  if(!box){console.error('Khong tim thay o cau hoi');return}
+  const lc=(s.lua_chon||'').split('|').map(x=>x.trim()).filter(Boolean);
+  const dung=(s.dap_an||'').trim().toUpperCase();
+  if(!lc.length){box.innerHTML='<div class="badbox"><b>Trang không tải được đáp án.</b><br>Hãy quay về danh sách và mở lại bài. Nếu vẫn lỗi, bấm “Sửa chỗ này”.</div>';console.error('Khong co lua chon',s);return}
+  if(daTraLoi[idx]!==undefined){veKetQuaCauHoi(s,daTraLoi[idx]);return}
+  box.innerHTML=lc.map((x,j)=>`<div style="margin:7px 0">
+    <button style="width:100%;text-align:left" data-c="${String.fromCharCode(65+j)}">
+    <b>${String.fromCharCode(65+j)}.</b> ${esc(x)}</button></div>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    const chon=b.dataset.c; daTraLoi[idx]=chon;
+    if(chon===dung)diemDung++; else diemSai++;
+    veKetQuaCauHoi(s,chon)});
+}
+function veKetQuaCauHoi(s,chon){
+  const box=document.getElementById('lc');
+  if(!box){console.error('Khong tim thay o cau hoi');return}
+  const lc=(s.lua_chon||'').split('|').map(x=>x.trim()).filter(Boolean);
+  const dung=(s.dap_an||'').trim().toUpperCase();
+  const ok=chon===dung;
+  const iDung=dung.charCodeAt(0)-65;
+  const nut=document.getElementById('nut-tiep');
+  if(nut)nut.textContent='Tôi đã trả lời — tiếp tục';
+  const nh=document.getElementById('nhac-cau-hoi');if(nh)nh.innerHTML='';
+  box.innerHTML=`<div class="${ok?'okbox':'badbox'}" style="margin:6px 0">
+    <span class="tag ${ok?'t-ok':'t-bad'}">${ok?'BẠN TRẢ LỜI ĐÚNG':'BẠN TRẢ LỜI CHƯA ĐÚNG'}</span>
+    <p style="margin:9px 0 0">Bạn chọn <b>${chon}</b>. ${ok?'':`Đáp án đúng là <b>${dung}. ${esc(lc[iDung]||'')}</b>`}</p>
+    ${s.vi_sao_dap_an?`<p style="margin:9px 0 0">${esc(s.vi_sao_dap_an)}</p>`:''}
+    ${ok?'':'<p class="kv" style="margin-top:9px">Sai ở đây không sao. Biết mình sai chỗ nào mới là điều quan trọng — và bây giờ bạn biết rồi.</p>'}
+  </div>`;
+}
+
+async function kiemChung(s){
+  const kq=$('#kq'); kq.innerHTML='<p class="kv">Bạn nói đã làm xong. Máy đang đi kiểm lại…</p>';
+  const r=await J('/api/kiem_chung',{lenh_kiem:s.kiem_chung,thu_muc:s.thu_muc,
+    mong_doi:s.mong_doi||'',khong_duoc_co:s.khong_duoc_co||'',
+    runbook:cur.meta.id,buoc:s.id,nguoi:nguoi()});
+  if(r.khong_kiem_duoc){
+    kq.innerHTML=`<div class="warnbox"><b>Máy không kiểm được bước này.</b><br>${esc(r.ly_do)}
+      <p class="kv" style="margin-top:8px">Bạn tự chịu trách nhiệm cho bước này.</p>
+      <div class="row"><button class="big">Tôi chắc đã làm đúng — đi tiếp</button>
+      <button class="stop">Để tôi làm lại</button></div></div>`;
+    kq.querySelector('.big').onclick=()=>{ghi(s,'TU_LAM_KHONG_KIEM');idx++;veBuoc()};
+    kq.querySelector('.stop').onclick=()=>veBuoc(); return}
+  if(r.dat){
+    kq.innerHTML=`<div class="okbox"><span class="tag t-ok">MÁY KIỂM: ĐÚNG RỒI</span>
+      <p style="margin:9px 0 0">Máy vừa đi kiểm và thấy việc bạn làm <b>đã thật sự xảy ra</b>.
+      Không phải máy tin lời bạn — máy nhìn thấy kết quả.</p></div>
+      ${r.ra?`<div class="lbl">Máy nhìn thấy gì</div><pre>${esc(r.ra)}</pre>`:''}
+      <div class="row"><button class="big">Sang bước sau</button></div>`;
+    kq.querySelector('.big').onclick=()=>{ghi(s,'TU_LAM_DA_KIEM');idx++;veBuoc()}}
+  else{
+    kq.innerHTML=`<div class="badbox"><span class="tag t-bad">MÁY KIỂM: CHƯA ĐÚNG</span>
+      <p style="margin:9px 0">Bạn nói đã làm xong, nhưng máy đi kiểm thì <b>chưa thấy kết quả</b>.</p>
+      ${r.thieu&&r.thieu.length?`<p><b>Còn thiếu:</b> ${esc(r.thieu.join(' · '))}</p>`:''}
+      <p class="kv">Đây không phải trách móc. Rất hay gặp — ví dụ file chưa bấm Ctrl+S để lưu,
+      hoặc chép nhầm thư mục. Máy bắt được giúp bạn ngay bây giờ, còn hơn phát hiện sau ba bước.</p></div>
+      ${r.ra?`<div class="lbl">Máy nhìn thấy gì</div><pre>${esc(r.ra)}</pre>`:''}
+      ${s.neu_loi?`<div class="warnbox"><b>Thường là do:</b><br>${esc(s.neu_loi)}</div>`:''}
+      <div class="row"><button class="big">Tôi làm lại — rồi kiểm lần nữa</button>
+      <button class="stop">Dừng lại đây</button></div>`;
+    kq.querySelector('.big').onclick=()=>kiemChung(s);
+    kq.querySelector('.stop').onclick=()=>tuChoi(s)}
+}
+
+function ghi(s,qd){nhatky.push({buoc:idx+1,ten:s.ten,quyet_dinh:qd})}
+
+function tuChoi(s){
+  if(!confirm('Bạn chọn KHÔNG làm bước này.\n\nViệc sẽ dừng lại. Không có gì thay đổi.\n\nĐúng ý bạn chứ?'))return;
+  ghi(s,'TU_CHOI');
+  stoppedStep=String(s.id||idx+1);
+  $('#r-buoc').innerHTML=`<div class="card"><h2 style="margin-top:0">Bạn đã dừng lại</h2>
+    <p>Dừng ở bước ${idx+1}: <b>${esc(s.ten||'')}</b></p>
+    <div class="okbox">Không có gì bị thay đổi. Đây là một quyết định hợp lệ, không phải thất bại.</div>
+    <p class="kv">Nếu bạn dừng vì chưa hiểu, hãy bấm "Tôi đang bí" ở màn hình trước —
+    đó là cách hướng dẫn được viết lại cho dễ hơn.</p>
+    <div class="row"><button class="big" onclick="moSoTam()">Mở Sổ tạm để chép hoặc tải</button>
+    <button onclick="ve()">Về danh sách việc</button>
+    <button onclick="veBrief()">Xem lại bản tóm tắt</button></div></div>`;
+}
+
+async function chay(s,lan2){
+  const kq=$('#kq'); kq.innerHTML='<p class="kv">Đang chạy… đừng tắt cửa sổ.</p>';
+  const r=await J('/api/chay',{lenh:s.lenh,thu_muc:s.thu_muc,runbook:cur.meta.id,
+    cong:cur.meta.cong_phai_mo||'',nguon_cong:cur.meta.nguon_cong||'',
+    buoc:s.id,loai:s.loai,nguoi:nguoi(),xac_nhan_lan_hai:!!lan2});
+
+  if(r.tu_choi){kq.innerHTML=`<div class="badbox"><b>Máy từ chối chạy lệnh này.</b><br>${esc(r.ly_do)}
+    <p class="kv" style="margin-top:8px">Đây không phải lỗi của bạn. Chốt chặn chính sách đã hoạt động đúng.</p></div>`;return}
+
+  if(r.can_xac_nhan_lan_hai){
+    kq.innerHTML=`<div class="badbox"><b>Dừng lại một giây.</b><br>${esc(r.canh_bao)}
+      <p style="margin:9px 0 0">Nếu làm sai, bạn mất gì, và có lấy lại được không?
+      Chưa trả lời được thì đừng bấm.</p>
+      <div class="row"><button class="stop">Tôi hiểu rủi ro — vẫn làm</button>
+      <button onclick="$('#kq').innerHTML=''">Thôi, để sau</button></div></div>`;
+    kq.querySelector('.stop').onclick=()=>chay(s,true);return}
+
+  ghi(s,'DONG_Y');
+  const ok=r.ma_thoat===0;
+  kq.innerHTML=`<div class="${ok?'okbox':'badbox'}">
+      <span class="tag ${ok?'t-ok':'t-bad'}">MÁY: ${ok?'ĐẠT':'CHƯA ĐẠT'}</span>
+      <span class="tag t-warn">QUẢN TRỊ: CHƯA XÁC MINH</span>
+      <p class="kv" style="margin-top:9px">Máy chạy xong <b>không có nghĩa là đã được duyệt</b>.
+      Bạn vẫn phải tự nhìn kết quả và tự kết luận.</p></div>
+    ${r.ra?`<div class="lbl">Máy in ra</div><pre>${esc(r.ra.slice(0,4000))}</pre>`:''}
+    ${r.loi?`<div class="lbl">Thông báo lỗi</div><pre>${esc(r.loi.slice(0,3000))}</pre>
+      ${s.neu_loi?`<div class="warnbox"><b>Gặp lỗi này thì làm gì:</b><br>${esc(s.neu_loi)}</div>`:''}`:''}
+    <div class="lbl" style="margin-top:14px">Bây giờ bạn tự kiểm</div>
+    <div>${esc(s.xong_khi||'Nhìn kết quả trên và tự quyết xem có đúng như mong đợi không.')}</div>
+    <div class="row"><button class="big">Tôi đã kiểm — đúng, sang bước sau</button>
+      <button class="stop">Không đúng — dừng lại</button></div>`;
+  kq.querySelector('.big').onclick=()=>{idx++;veBuoc()};
+  kq.querySelector('.stop').onclick=()=>tuChoi(s);
+}
+
+function chep(btn){const el=document.getElementById('nd');if(!el)return;
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    btn.textContent='Đã chép ✓ — dán vào chỗ ghi bên dưới';
+    setTimeout(()=>btn.textContent='Chép nội dung này',4000)},
+    ()=>alert('Trình duyệt không cho chép tự động. Bôi đen phần chữ đen ở trên rồi bấm Ctrl+C.'));}
+
+function taoFeedbackId(){
+  if(globalThis.crypto&&crypto.randomUUID)return crypto.randomUUID();
+  return 'fb-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);
+}
+function moiTruongTho(){return{
+  user_agent:navigator.userAgent||'UNKNOWN',language:navigator.language||'UNKNOWN',
+  viewport:{width:innerWidth,height:innerHeight},page:location.pathname||'/',
+  timezone:(Intl.DateTimeFormat().resolvedOptions().timeZone||'UNKNOWN')
+}}
+function themPhanHoiVaoSo(eventType,stepId,message){
+  phanHoi.push({event_type:eventType,step_id:String(stepId||'-'),timestamp:new Date().toISOString(),message:String(message||'')});
+  capNhatDemSo();
+  thongBaoPhanHoi('Phản hồi đã được thêm vào Sổ tạm của phiên này. Trang chưa gửi và chưa lưu bền nội dung. Bạn có thể mở Sổ tạm ngay để chép, tải .txt hoặc bôi đen thủ công.');
+}
+function capNhatDemSo(){const b=$('#feedback-ledger-button');if(b)b.textContent=`Sổ tạm (${phanHoi.length})`}
+function thongBaoPhanHoi(message){
+  document.getElementById('feedback-note')?.remove();const n=E('div');n.id='feedback-note';n.className='feedback-note';n.setAttribute('role','status');n.textContent=message;document.body.appendChild(n);setTimeout(()=>n.remove(),6000);
+}
+function moNhapPhanHoi(eventType,stepId,title){
+  document.getElementById('feedback-entry')?.remove();
+  const layer=E('div');layer.id='feedback-entry';layer.className='feedback-overlay';
+  layer.innerHTML=`<div class="feedback-dialog" role="dialog" aria-modal="true" aria-labelledby="feedback-entry-title">
+    <h2 id="feedback-entry-title" style="margin-top:0">${esc(title)}</h2>
+    <p class="kv">Nội dung chỉ được thêm vào Sổ tạm của tab này. Trang chưa gửi và chưa lưu bền.</p>
+    <textarea id="feedback-message-input" aria-label="Nội dung phản hồi" placeholder="Viết bằng lời thường, càng cụ thể càng tốt"></textarea>
+    <div class="row"><button class="big" id="feedback-add">Thêm vào Sổ tạm</button><button id="feedback-cancel">Bỏ qua</button></div></div>`;
+  document.body.appendChild(layer);const input=$('#feedback-message-input');input.focus();
+  $('#feedback-add').onclick=()=>{const m=input.value.trim();if(!m){input.focus();return}themPhanHoiVaoSo(eventType,stepId,m);layer.remove()};
+  $('#feedback-cancel').onclick=()=>layer.remove();
+}
+function biTac(s){moNhapPhanHoi('BLOCKED',s&&s.id?s.id:(idx+1),'Bạn đang bí ở đâu?')}
+function hoiGopY(o){moNhapPhanHoi('COMMENT_OR_BUG',cur&&cur.steps[idx]?cur.steps[idx].id:o,'Chỗ này khó dùng ở điểm nào?')}
+function taoFeedbackPacket(includeEnvironment=false){
+  if(!feedbackId)feedbackId=taoFeedbackId();
+  return{
+  schema:'FEEDBACK_PACKET/1.0',feedback_id:feedbackId,release_id:RELEASE_ID,
+  role:ROLE,runbook_id:cur?cur.meta.id:'-',step_id:stoppedStep||((cur&&idx>=cur.steps.length)?'COMPLETE':(cur&&cur.steps[idx]?String(cur.steps[idx].id):'NOT_STARTED')),event_type:'SESSION_FEEDBACK_PACKET',
+  timestamp:new Date().toISOString(),score:{correct:diemDung,incorrect:diemSai},
+  decisions:nhatky.map(x=>({step_number:x.buoc,name:x.ten,decision:x.quyet_dinh})),
+  message:'Phiếu tổng hợp phản hồi của bài trong phiên đang mở.',environment_raw:includeEnvironment?moiTruongTho():null,
+  environment_consent:includeEnvironment,events:phanHoi.map(x=>({...x})),sent:false,received:false
+}}
+function capNhatPhieu(){
+  const box=$('#feedback-manual'),preview=$('#feedback-env-preview');if(!box)return;
+  const includeEnvironment=document.querySelector('input[name="feedback-env-choice"]:checked')?.value==='yes';
+  feedbackPacketText=JSON.stringify(taoFeedbackPacket(includeEnvironment),null,2);box.value=feedbackPacketText;
+  if(preview){preview.classList.toggle('hide',!includeEnvironment);preview.querySelector('pre').textContent=includeEnvironment?JSON.stringify(moiTruongTho(),null,2):''}
+}
+async function chepToanBoPhieu(){
+  if(!feedbackPacketText)return;
+  try{await navigator.clipboard.writeText(feedbackPacketText);thongBaoPhanHoi('Đã chép toàn bộ phiếu. Trang chưa gửi và chưa xác nhận nơi nhận đã nhận được. Quay lại cuộc trò chuyện nơi bạn nhận được link và dán phiếu phản hồi.')}
+  catch(e){const box=$('#feedback-manual');box.focus();box.select();thongBaoPhanHoi('Không chép tự động được. Nội dung đã được bôi đen; bấm Ctrl+C rồi quay lại cuộc trò chuyện nơi bạn nhận được link và dán phiếu phản hồi.')}
+}
+function taiPhieuTxt(){
+  if(!feedbackPacketText)return;
+  if(feedbackDownloadUrl)URL.revokeObjectURL(feedbackDownloadUrl);
+  const blob=new Blob([feedbackPacketText+'\n'],{type:'text/plain;charset=utf-8'}),a=$('#feedback-download-link');
+  feedbackDownloadUrl=URL.createObjectURL(blob);a.href=feedbackDownloadUrl;a.download='feedback-'+(feedbackId||'packet')+'.txt';a.classList.remove('hide');a.click();
+  thongBaoPhanHoi('Trình duyệt đã bắt đầu tải phiếu TXT theo yêu cầu của bạn. Trang chưa gửi, chưa nhận và không giữ bản sao bền.');
+}
+function dongSoTam(){document.getElementById('feedback-ledger')?.remove();if(feedbackDownloadUrl){URL.revokeObjectURL(feedbackDownloadUrl);feedbackDownloadUrl=''}}
+function moSoTam(){
+  document.getElementById('feedback-ledger')?.remove();
+  const dsQD=nhatky.length?nhatky.map(x=>`<li>Bước ${x.buoc}: ${esc(x.ten)} — ${esc(x.quyet_dinh)}</li>`).join(''):'<li>Chưa có quyết định được ghi trong bài.</li>';
+  const dsPH=phanHoi.length?phanHoi.map(x=>`<li>${esc(x.event_type)} · bước ${esc(x.step_id)} · ${esc(x.message)}</li>`).join(''):'<li>Chưa có lần báo bí hoặc góp ý nào.</li>';
+  const layer=E('div');layer.id='feedback-ledger';layer.className='feedback-overlay';
+  layer.innerHTML=`<div class="feedback-dialog" role="dialog" aria-modal="true" aria-labelledby="feedback-ledger-title"><h2 id="feedback-ledger-title" style="margin-top:0">Sổ tạm (${phanHoi.length})</h2>
+    <p class="kv">Sổ này chỉ tồn tại trong bộ nhớ của tab đang mở. Trang không dùng bộ nhớ bền của trình duyệt, máy chủ nhận dữ liệu hay kết nối mạng.</p>
+    <div class="two"><div><div class="lbl">Điểm</div><b>${diemDung} đúng · ${diemSai} chưa đúng</b></div><div><div class="lbl">Trạng thái</div><b>sent=false · received=false</b></div></div>
+    <div class="lbl">Các quyết định</div><ul>${dsQD}</ul><div class="lbl">Các lần báo bí / góp ý</div><ul>${dsPH}</ul>
+    <div class="lbl">Bạn tự chọn nội dung môi trường</div>
+    <div class="feedback-choices">
+      <label class="feedback-choice"><input type="radio" name="feedback-env-choice" value="no" checked><span><b>Xuất không kèm môi trường</b><br><span class="kv">Mặc định. Phiếu ghi environment_consent=false và environment_raw=null.</span></span></label>
+      <label class="feedback-choice"><input type="radio" name="feedback-env-choice" value="yes"><span><b>Tự nguyện kèm môi trường</b><br><span class="kv">Chỉ kèm tên trình duyệt, ngôn ngữ, kích thước màn hình, trang và múi giờ đang thấy.</span></span></label>
+    </div>
+    <div id="feedback-env-preview" class="hide"><div class="lbl">Môi trường thô sẽ kèm</div><pre></pre></div>
+    <div class="lbl">Phiếu đầy đủ — có thể bôi đen thủ công</div>
+    <textarea id="feedback-manual" readonly aria-label="Nội dung phiếu để bôi đen thủ công"></textarea>
+    <div class="row"><button class="big" id="feedback-copy">Chép toàn bộ</button><button id="feedback-download">Tải .txt</button><a id="feedback-download-link" class="hide" href="#">Tải lại cùng phiếu TXT</a><button id="feedback-close">Đóng Sổ tạm</button></div>
+    <p><b>Quay lại cuộc trò chuyện nơi bạn nhận được link và dán phiếu phản hồi.</b></p>
+    <p class="kv">Mốc xử lý 48 giờ chỉ bắt đầu sau khi nơi nhận thật sự nhận phiếu và xác nhận việc nhận; file bạn đang xem vẫn ghi received=false.</p>
+    <p class="kv">Nếu nút Chép không hoạt động, bấm vào khung nội dung, chọn toàn bộ rồi chép thủ công. Việc từ chối kèm môi trường không làm mất quyền chép hoặc tải.</p></div>`;
+  document.body.appendChild(layer);
+  document.querySelectorAll('input[name="feedback-env-choice"]').forEach(x=>x.onchange=capNhatPhieu);
+  $('#feedback-copy').onclick=chepToanBoPhieu;$('#feedback-download').onclick=taiPhieuTxt;$('#feedback-close').onclick=dongSoTam;capNhatPhieu();$('#feedback-manual').focus();
+}
+function soPhanHoiHtml(){
+  return `<div class="card"><h2 style="margin-top:0">Phiếu phản hồi đầy đủ vẫn sẵn sàng</h2>
+    <p>Bạn có thể xuất phiếu dù hoàn thành, dừng giữa chừng hoặc không đồng ý kèm môi trường.</p>
+    <div class="row"><button class="big" onclick="moSoTam()">Mở Sổ tạm để xem, chép hoặc tải</button></div></div>`;
+}
+async function xongViec(){
+  await J('/api/danh_dau_xong',{runbook:cur.meta.id,nguoi:nguoi(),cham_ky_thuat:cham,diem_dung:diemDung,diem_sai:diemSai});
+  const ds=nhatky.map(x=>`<div class="mrow"><div class="mnum ok">✓</div>
+    <div>Bước ${x.buoc} — ${esc(x.ten||'')}<div class="kv">bạn đã ${x.quyet_dinh==='DONG_Y'?'đồng ý':x.quyet_dinh==='TU_LAM'?'tự làm':'từ chối'}</div></div></div>`).join('');
+  $('#r-map').innerHTML='';
+  $('#r-buoc').innerHTML=`<div class="card"><h2 style="margin-top:0">Xong việc này</h2>
+    <div class="lbl" style="margin-top:14px">Bạn vừa quyết định những gì</div>${ds}
+    ${(diemDung+diemSai)>0?`<div class="lbl" style="margin-top:18px">Bạn hiểu tới đâu</div>
+      <div style="font-size:26px;font-weight:600">${diemDung} đúng · ${diemSai} chưa đúng</div>
+      <p class="kv">${diemSai===0?'Bạn nắm chắc bài này. Có thể chuyển sang bài khác.'
+        :diemSai<=1?'Gần chắc rồi. Xem lại chỗ sai một lượt nữa là ổn.'
+        :'Nên làm lại bài này một lần nữa. Sai vài chỗ ở bài tập tốt hơn sai một chỗ ở việc thật.'}</p>`:''}
+    <div class="lbl" style="margin-top:18px">Số lần bạn phải tự chạm việc kỹ thuật</div>
+    <div style="font-size:30px;font-weight:600">${cham}</div>
+    <p class="kv">Con số này chỉ hiển thị trong phiên đang mở và không được gửi đi. <b>Nó nên giảm dần khi thiết kế tốt lên.</b>
+    Nếu sau hai tuần không giảm, thiết kế đang sai — hãy báo, đừng cố dùng tiếp.</p>
+    ${soPhanHoiHtml()}
+    <div class="row"><button class="big" onclick="ve()">Về danh sách việc</button></div></div>`;
+}
+</script></body></html>
