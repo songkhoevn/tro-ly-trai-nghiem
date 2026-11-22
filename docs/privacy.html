@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — BaTot Media Hub</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; max-width: 820px; margin: 36px auto; padding: 0 20px; color: #18231c; line-height: 1.65; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #dce5df; margin-bottom: 24px; gap: 12px; flex-wrap: wrap; }
+    nav a { color: #166534; text-decoration: none; font-weight: 600; margin-right: 14px; }
+    .lang-btn { padding: 6px 12px; border: 1px solid #166534; background: #fff; color: #166534; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .lang-btn.active { background: #166534; color: #fff; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 18px; margin-top: 26px; border-bottom: 1px solid #eef2ef; padding-bottom: 4px; }
+    code { background: #f3f6f4; padding: 2px 5px; border-radius: 4px; font-size: 0.92em; }
+    ul { padding-left: 22px; }
+    li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div>
+      <a href="index.html">BaTot Media Hub</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <div>
+      <button class="lang-btn active" id="btnEn" onclick="setLang('en')">English</button>
+      <button class="lang-btn" id="btnVi" onclick="setLang('vi')">Tiếng Việt</button>
+    </div>
+  </nav>
+  <div id="contentEn"><h1>Privacy Policy — Internal Application <code>BaTot Media Hub</code></h1>
+<p>Effective Date: <code>November 22, 2026</code></p>
+<p>Published URL: <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html</a></code></p>
+<h2>1. Scope</h2>
+<ul>
+<li>This Privacy Policy applies solely to the internal application <code>BaTot Media Hub</code> (the &quot;Application&quot;) operated by <code>Le Van Thu (Individual operator of Ba Tốt)</code> (Individual operator of Ba Tốt), alongside the Terms of Service at <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html</a></code>.</li>
+<li>The Application is an internal tool serving a single authorized user—the owner of Ba Tốt&#x27;s TikTok account—to publish short videos made by Ba Tốt, introducing agricultural products “toward natural farming, in harmony with nature”, to Ba Tốt&#x27;s own TikTok account via the TikTok Content Posting API under scopes <code>`user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>`.</li>
+<li>The Application is not open to external users, has no public user accounts, and its purpose does not require data from customers, viewers, or other TikTok users.</li>
+</ul>
+<h2>2. Data Handled by the Application</h2>
+<p>The Application handles only the following three categories of data to publish videos to Ba Tốt&#x27;s TikTok account:</p>
+<h3>2.1. Video Files and Text Metadata Created by Ba Tốt</h3>
+<ul>
+<li><strong>What it is:</strong> Short video files made by Ba Tốt introducing agricultural products “toward natural farming, in harmony with nature”, together with accompanying text (titles, descriptions, hashtags). If a person appears in a video, that person&#x27;s image is personal data and the video is published only with that person&#x27;s consent.</li>
+<li><strong>Source:</strong> Created and authored internally by Ba Tốt.</li>
+<li><strong>Purpose:</strong> Uploaded and published with their titles, descriptions, and hashtags to Ba Tốt&#x27;s TikTok account via the TikTok Content Posting API.</li>
+<li><strong>Storage location:</strong> <code>local folders on the Project Owner&#x27;s personal computer (</code>D:\TLDP_NHAP\ANTIGRAVITY_VONG\out\VIEC_047_VIDEO_QUYT_TAO\<code> and </code>video\thanh_pham\<code>)</code>.</li>
+<li><strong>Retention period:</strong> <code>retained locally until manually deleted by the Project Owner</code>.</li>
+<li><strong>How it is deleted:</strong> <code>manual deletion of local video and text files on the Project Owner&#x27;s computer</code>.</li>
+</ul>
+<h3>2.2. OAuth Access Tokens for Ba Tốt&#x27;s TikTok Account</h3>
+<ul>
+<li><strong>What it is:</strong> OAuth access tokens (and refresh tokens, if applicable) associated with the authorized session of Ba Tốt&#x27;s TikTok account.</li>
+<li><strong>Source:</strong> Issued by TikTok&#x27;s OAuth system after the owner of Ba Tốt&#x27;s TikTok account signs in and approves the scopes <code>`user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>`.</li>
+<li><strong>Purpose:</strong> Authenticating requests to the TikTok Content Posting API to upload and publish Ba Tốt&#x27;s videos to Ba Tốt&#x27;s TikTok account.</li>
+<li><strong>Storage location:</strong> <code>local configuration file on the Project Owner&#x27;s personal computer (</code>D:\AI_DATA\TIKTOK_API\tiktok_config.json<code>)</code> (encryption and protection mechanism: <code>stored locally in a restricted folder on the Project Owner&#x27;s Windows PC protected by OS user authentication and NTFS file permissions; never displayed in the UI or transmitted to third parties</code>).</li>
+<li><strong>Retention period:</strong> <code>retained until expiration, access revocation by the account owner, or discontinuation of the Application</code>.</li>
+<li><strong>How it is deleted:</strong> The account owner may revoke access directly on TikTok and delete the tokens stored at <code>local configuration file on the Project Owner&#x27;s personal computer (</code>D:\AI_DATA\TIKTOK_API\tiktok_config.json<code>)</code> according to <code>revoking app access in TikTok account settings and clearing local tokens via the «Disconnect &amp; Clear Local Session» button or deleting the local configuration file</code>.</li>
+</ul>
+<h3>2.3. Basic Account Information of Ba Tốt&#x27;s TikTok Account</h3>
+<ul>
+<li><strong>What it is:</strong> Basic profile information of Ba Tốt&#x27;s own TikTok account returned by TikTok (applicable only if a basic profile permission is included in <code>`user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>`).</li>
+<li><strong>Source:</strong> Returned by TikTok&#x27;s API after the account owner completes OAuth sign-in.</li>
+<li><strong>Purpose:</strong> Confirming the authorized Ba Tốt TikTok account prior to publishing videos (when the corresponding permission is enabled).</li>
+<li><strong>Storage location:</strong> <code>held transiently in the active local UI session (fetched from </code>/v2/post/publish/creator_info/query/<code> and </code>/v2/user/info/<code>) and not stored in any external database</code>.</li>
+<li><strong>Retention period:</strong> <code>duration of the active local session only</code>.</li>
+<li><strong>How it is deleted:</strong> <code>clicking «Disconnect &amp; Clear Local Session» or closing the local application</code>.</li>
+</ul>
+<h3>2.4. Data Not Collected by the Application</h3>
+<ul>
+<li>In accordance with its internal publishing purpose, the Application does not collect personal data of customers, viewers, or other TikTok users.</li>
+<li>The Application does not read video comments, does not read follower lists, and does not read private messages.</li>
+</ul>
+<h2>3. No Advertising, No Sale, and No Unauthorized Sharing of Data</h2>
+<ul>
+<li>The Application does not use any data for advertising, targeted marketing, or behavioral profiling.</li>
+<li><code>Le Van Thu (Individual operator of Ba Tốt)</code> does not sell, rent, or trade data in any form.</li>
+<li>The Application does not share data with third parties, except transmitting video files, accompanying text, and OAuth tokens directly to TikTok&#x27;s official API endpoints solely to authenticate and publish videos to Ba Tốt&#x27;s TikTok account.</li>
+</ul>
+<h2>4. Data Storage and Protection</h2>
+<ul>
+<li>All data described in Section 2 is stored exclusively at the locations declared in Section 2 (<code>local folders on the Project Owner&#x27;s personal computer (</code>D:\TLDP_NHAP\ANTIGRAVITY_VONG\out\VIEC_047_VIDEO_QUYT_TAO\<code> and </code>video\thanh_pham\<code>)</code>, <code>local configuration file on the Project Owner&#x27;s personal computer (</code>D:\AI_DATA\TIKTOK_API\tiktok_config.json<code>)</code>, <code>held transiently in the active local UI session (fetched from </code>/v2/post/publish/creator_info/query/<code> and </code>/v2/user/info/<code>) and not stored in any external database</code>) for the respective retention periods (<code>retained locally until manually deleted by the Project Owner</code>, <code>retained until expiration, access revocation by the account owner, or discontinuation of the Application</code>, <code>duration of the active local session only</code>).</li>
+<li>How OAuth access tokens are protected: <code>stored locally in a restricted folder on the Project Owner&#x27;s Windows PC protected by OS user authentication and NTFS file permissions; never displayed in the UI or transmitted to third parties</code>. Only Ba Tốt&#x27;s Project Owner operates the Application.</li>
+</ul>
+<h2>5. How the Account Owner Revokes Access and Deletes Data</h2>
+<ul>
+<li><strong>Step 1 — Revoke permissions on TikTok:</strong> The owner of Ba Tốt&#x27;s TikTok account revokes access for <code>BaTot Media Hub</code> in the settings of the TikTok account. After revocation, the Application can no longer call the API to publish videos.</li>
+<li><strong>Step 2 — Delete stored data at the locations declared in Section 2:</strong> Delete OAuth tokens according to <code>revoking app access in TikTok account settings and clearing local tokens via the «Disconnect &amp; Clear Local Session» button or deleting the local configuration file</code>, delete any stored basic account information according to <code>clicking «Disconnect &amp; Clear Local Session» or closing the local application</code>, and manage removal of internal video/text files according to <code>manual deletion of local video and text files on the Project Owner&#x27;s computer</code>.</li>
+<li><strong>Step 3 — Contact for deletion support:</strong> To request confirmation of data deletion or privacy assistance, contact <code>thuvihatico@gmail.com</code>.</li>
+</ul>
+<h2>6. Governing Law</h2>
+<ul>
+<li>This Privacy Policy is governed by and implemented in accordance with <code>the laws of the Socialist Republic of Vietnam</code>.</li>
+</ul>
+<h2>7. Contact Information</h2>
+<ul>
+<li>Operator: <code>Le Van Thu (Individual operator of Ba Tốt)</code></li>
+<li>Contact Address: <code>To 20, Phu Dien, Ha Noi, Vietnam</code></li>
+<li>Contact Email: <code>thuvihatico@gmail.com</code></li>
+<li>Application Name: <code>BaTot Media Hub</code></li>
+<li>Privacy Policy URL: <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html</a></code></li>
+<li>Terms of Service URL: <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html</a></code></li>
+</ul>
+<h2>8. Effective Date and Policy Updates</h2>
+<ul>
+<li>This Privacy Policy takes effect on <code>November 22, 2026</code>.</li>
+<li><code>Le Van Thu (Individual operator of Ba Tốt)</code> may update this Privacy Policy when data scope, storage practices, or TikTok API integration changes. The updated version will be published publicly at <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html</a></code> with a revised effective date.</li>
+</ul></div>
+  <div id="contentVi" style="display:none;"><h1>Chính sách bảo mật — Ứng dụng nội bộ <code>BaTot Media Hub</code></h1>
+<p>Ngày hiệu lực: <code>22/11/2026</code></p>
+<p>Địa chỉ công bố: <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html</a></code></p>
+<h2>1. Phạm vi áp dụng</h2>
+<ul>
+<li>Chính sách bảo mật này áp dụng riêng cho ứng dụng nội bộ <code>BaTot Media Hub</code> («Ứng dụng») do <code>Lê Văn Thụ (Cá nhân vận hành Ba Tốt)</code> (Cá nhân vận hành Ba Tốt) vận hành, đi kèm Điều khoản dịch vụ tại <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html</a></code>.</li>
+<li>Ứng dụng là công cụ nội bộ chỉ phục vụ một người dùng duy nhất là chủ tài khoản TikTok của Ba Tốt để đăng video do Ba Tốt làm, giới thiệu nông sản «hướng hữu cơ, thuận tự nhiên», lên chính tài khoản TikTok của Ba Tốt qua TikTok Content Posting API với phạm vi quyền <code>`user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>`.</li>
+<li>Ứng dụng không mở cho bên ngoài, không có tài khoản người dùng công cộng và mục đích hoạt động không cần dữ liệu của khách hàng, người xem hay người dùng TikTok khác.</li>
+</ul>
+<h2>2. Dữ liệu ứng dụng xử lý</h2>
+<p>Ứng dụng chỉ chạm tới ba nhóm dữ liệu sau đây để thực hiện việc đăng video lên tài khoản TikTok của Ba Tốt:</p>
+<h3>2.1. Tệp video và nội dung chữ do Ba Tốt soạn</h3>
+<ul>
+<li><strong>Là gì:</strong> Tệp video ngắn do Ba Tốt làm, giới thiệu nông sản «hướng hữu cơ, thuận tự nhiên», kèm nội dung chữ (tiêu đề, mô tả, hashtag). Nếu video có người xuất hiện, hình ảnh người đó là dữ liệu cá nhân và video chỉ được đăng khi người đó đã đồng ý.</li>
+<li><strong>Lấy từ đâu:</strong> Do chính Ba Tốt tạo và biên soạn nội bộ.</li>
+<li><strong>Dùng để làm gì:</strong> Tải lên và đăng video kèm tiêu đề, mô tả, hashtag lên tài khoản TikTok của Ba Tốt thông qua TikTok Content Posting API.</li>
+<li><strong>Lưu ở đâu:</strong> <code>Thư mục cục bộ trên máy tính cá nhân của chủ dự án (</code>D:\TLDP_NHAP\ANTIGRAVITY_VONG\out\VIEC_047_VIDEO_QUYT_TAO\<code> và </code>video\thanh_pham\<code>)</code>.</li>
+<li><strong>Lưu bao lâu:</strong> <code>Lưu giữ nội bộ cho tới khi chủ dự án chủ động xóa khỏi máy tính cá nhân</code>.</li>
+<li><strong>Xóa thế nào:</strong> <code>Chủ dự án xóa trực tiếp tệp video và văn bản trong thư mục cục bộ trên máy tính cá nhân</code>.</li>
+</ul>
+<h3>2.2. Mã truy cập OAuth của tài khoản TikTok Ba Tốt</h3>
+<ul>
+<li><strong>Là gì:</strong> Mã truy cập OAuth (và mã làm mới, nếu có) gắn với phiên ủy quyền của tài khoản TikTok Ba Tốt.</li>
+<li><strong>Lấy từ đâu:</strong> Do hệ thống OAuth của TikTok cấp sau khi chủ tài khoản TikTok của Ba Tốt đăng nhập và chấp thuận phạm vi quyền <code>`user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>`.</li>
+<li><strong>Dùng để làm gì:</strong> Xác thực với TikTok Content Posting API để gửi video của Ba Tốt lên tài khoản TikTok của Ba Tốt.</li>
+<li><strong>Lưu ở đâu:</strong> <code>Tệp cấu hình cục bộ trên máy tính cá nhân của chủ dự án (</code>D:\AI_DATA\TIKTOK_API\tiktok_config.json<code>)</code> (cơ chế mã hóa và bảo vệ: <code>Lưu cục bộ trong thư mục riêng trên máy tính cá nhân được bảo vệ bằng tài khoản người dùng hệ điều hành Windows và phân quyền truy cập tệp NTFS; không hiển thị trên giao diện và không gửi ra bên ngoài</code>).</li>
+<li><strong>Lưu bao lâu:</strong> <code>Lưu cho tới khi hết hạn, chủ tài khoản thu hồi quyền hoặc ngừng sử dụng Ứng dụng</code>.</li>
+<li><strong>Xóa thế nào:</strong> Chủ tài khoản có thể thu hồi quyền trực tiếp trên TikTok và xóa mã truy cập tại <code>Tệp cấu hình cục bộ trên máy tính cá nhân của chủ dự án (</code>D:\AI_DATA\TIKTOK_API\tiktok_config.json<code>)</code> theo quy trình <code>Thu hồi quyền trên cài đặt tài khoản TikTok và xóa trực tiếp mã truy cập bằng nút «Ngắt kết nối &amp; xóa phiên cục bộ» trên giao diện hoặc xóa tệp cấu hình cục bộ</code>.</li>
+</ul>
+<h3>2.3. Thông tin cơ bản của tài khoản TikTok Ba Tốt</h3>
+<ul>
+<li><strong>Là gì:</strong> Thông tin cơ bản của chính tài khoản TikTok Ba Tốt do TikTok trả về (chỉ áp dụng nếu ứng dụng được cấp quyền đọc thông tin cơ bản trong <code>`user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>`).</li>
+<li><strong>Lấy từ đâu:</strong> Do API của TikTok trả về sau khi chủ tài khoản đăng nhập OAuth.</li>
+<li><strong>Dùng để làm gì:</strong> Xác nhận đúng tài khoản TikTok của Ba Tốt trước khi thực hiện đăng video (khi quyền tương ứng được bật).</li>
+<li><strong>Lưu ở đâu:</strong> <code>Chỉ hiển thị tạm thời trong phiên làm việc trên giao diện cục bộ (lấy từ </code>/v2/post/publish/creator_info/query/<code> và </code>/v2/user/info/<code>), không lưu cơ sở dữ liệu ngoài</code>.</li>
+<li><strong>Lưu bao lâu:</strong> <code>Chỉ tồn tại trong phiên làm việc hiện tại; xóa khi đóng hoặc ngắt kết nối phiên</code>.</li>
+<li><strong>Xóa thế nào:</strong> <code>Bấm «Ngắt kết nối &amp; xóa phiên cục bộ» hoặc đóng ứng dụng cục bộ</code>.</li>
+</ul>
+<h3>2.4. Dữ liệu ứng dụng không thu thập</h3>
+<ul>
+<li>Theo mục đích thiết kế nội bộ, Ứng dụng không thu thập dữ liệu cá nhân của khách hàng, người xem hoặc người dùng TikTok khác.</li>
+<li>Ứng dụng không đọc bình luận video, không đọc danh sách người theo dõi và không đọc tin nhắn riêng tư.</li>
+</ul>
+<h2>3. Không dùng dữ liệu cho quảng cáo, không bán và không chia sẻ dữ liệu</h2>
+<ul>
+<li>Ứng dụng không sử dụng bất kỳ dữ liệu nào cho mục đích quảng cáo, tiếp thị nhắm mục tiêu hoặc lập hồ sơ hành vi.</li>
+<li><code>Lê Văn Thụ (Cá nhân vận hành Ba Tốt)</code> không bán, không cho thuê và không trao đổi dữ liệu dưới bất kỳ hình thức nào.</li>
+<li>Ứng dụng không chia sẻ dữ liệu với bên thứ ba, ngoại trừ việc truyền trực tiếp tệp video, nội dung chữ và mã truy cập OAuth tới giao diện lập trình chính thức của TikTok nhằm duy nhất mục đích xác thực và đăng video lên tài khoản TikTok của Ba Tốt.</li>
+</ul>
+<h2>4. Lưu trữ và bảo vệ dữ liệu</h2>
+<ul>
+<li>Toàn bộ dữ liệu nêu tại Mục 2 chỉ được lưu giữ tại các nơi đã khai ở Mục 2 (<code>Thư mục cục bộ trên máy tính cá nhân của chủ dự án (</code>D:\TLDP_NHAP\ANTIGRAVITY_VONG\out\VIEC_047_VIDEO_QUYT_TAO\<code> và </code>video\thanh_pham\<code>)</code>, <code>Tệp cấu hình cục bộ trên máy tính cá nhân của chủ dự án (</code>D:\AI_DATA\TIKTOK_API\tiktok_config.json<code>)</code>, <code>Chỉ hiển thị tạm thời trong phiên làm việc trên giao diện cục bộ (lấy từ </code>/v2/post/publish/creator_info/query/<code> và </code>/v2/user/info/<code>), không lưu cơ sở dữ liệu ngoài</code>) trong thời hạn tương ứng (<code>Lưu giữ nội bộ cho tới khi chủ dự án chủ động xóa khỏi máy tính cá nhân</code>, <code>Lưu cho tới khi hết hạn, chủ tài khoản thu hồi quyền hoặc ngừng sử dụng Ứng dụng</code>, <code>Chỉ tồn tại trong phiên làm việc hiện tại; xóa khi đóng hoặc ngắt kết nối phiên</code>).</li>
+<li>Cách bảo vệ mã truy cập OAuth: <code>Lưu cục bộ trong thư mục riêng trên máy tính cá nhân được bảo vệ bằng tài khoản người dùng hệ điều hành Windows và phân quyền truy cập tệp NTFS; không hiển thị trên giao diện và không gửi ra bên ngoài</code>. Chỉ chủ dự án Ba Tốt vận hành Ứng dụng.</li>
+</ul>
+<h2>5. Cách chủ kênh thu hồi quyền và xóa dữ liệu</h2>
+<ul>
+<li><strong>Bước 1 — Thu hồi quyền trên TikTok:</strong> Chủ tài khoản TikTok của Ba Tốt thu hồi quyền truy cập của <code>BaTot Media Hub</code> trong phần cài đặt của tài khoản TikTok. Sau khi thu hồi, Ứng dụng không còn quyền gọi API đăng video.</li>
+<li><strong>Bước 2 — Xóa dữ liệu tại nơi lưu đã khai ở Mục 2:</strong> Xóa mã truy cập OAuth theo <code>Thu hồi quyền trên cài đặt tài khoản TikTok và xóa trực tiếp mã truy cập bằng nút «Ngắt kết nối &amp; xóa phiên cục bộ» trên giao diện hoặc xóa tệp cấu hình cục bộ</code>, xóa thông tin tài khoản cơ bản (nếu có lưu) theo <code>Bấm «Ngắt kết nối &amp; xóa phiên cục bộ» hoặc đóng ứng dụng cục bộ</code> và quản lý xóa tệp video/chữ nội bộ theo <code>Chủ dự án xóa trực tiếp tệp video và văn bản trong thư mục cục bộ trên máy tính cá nhân</code>.</li>
+<li><strong>Bước 3 — Liên hệ hỗ trợ xóa dữ liệu:</strong> Trường hợp cần xác nhận việc xóa dữ liệu hoặc hỗ trợ liên quan đến quyền riêng tư, liên hệ qua email <code>thuvihatico@gmail.com</code>.</li>
+</ul>
+<h2>6. Luật áp dụng</h2>
+<ul>
+<li>Chính sách bảo mật này được điều chỉnh và thực hiện theo <code>Pháp luật nước Cộng hòa Xã hội Chủ nghĩa Việt Nam</code>.</li>
+</ul>
+<h2>7. Thông tin liên hệ</h2>
+<ul>
+<li>Đơn vị vận hành: <code>Lê Văn Thụ (Cá nhân vận hành Ba Tốt)</code></li>
+<li>Địa chỉ liên hệ: <code>Tổ 20, Phú Diễn, Hà Nội, Việt Nam</code></li>
+<li>Email liên hệ: <code>thuvihatico@gmail.com</code></li>
+<li>Tên ứng dụng: <code>BaTot Media Hub</code></li>
+<li>Trang Chính sách bảo mật: <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html</a></code></li>
+<li>Trang Điều khoản dịch vụ: <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/terms.html</a></code></li>
+</ul>
+<h2>8. Ngày hiệu lực và cập nhật chính sách</h2>
+<ul>
+<li>Chính sách bảo mật này có hiệu lực từ ngày <code>22/11/2026</code>.</li>
+<li><code>Lê Văn Thụ (Cá nhân vận hành Ba Tốt)</code> có thể cập nhật Chính sách bảo mật này khi phạm vi dữ liệu, cách lưu trữ hoặc tích hợp TikTok thay đổi. Phiên bản mới sẽ được đăng công khai tại <code><a href="https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html" target="_blank" rel="noopener">https://songkhoevn.github.io/tro-ly-trai-nghiem/privacy.html</a></code> kèm ngày hiệu lực mới.</li>
+</ul></div>
+  <script>
+    function setLang(l) {
+      document.getElementById('contentEn').style.display = l === 'en' ? 'block' : 'none';
+      document.getElementById('contentVi').style.display = l === 'vi' ? 'block' : 'none';
+      document.getElementById('btnEn').classList.toggle('active', l === 'en');
+      document.getElementById('btnVi').classList.toggle('active', l === 'vi');
+    }
+  </script>
+</body>
+</html>
